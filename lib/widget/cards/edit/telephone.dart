@@ -83,7 +83,7 @@ class _EditTelephoneState extends State<EditTelephone> {
     if (pickedImage == null) return;
 
     final String imageName = pickedImage.path.split('/').last;
-    final String savePath = '${getAvatarDirPath()}/$imageName';
+    final String savePath = '${await getAvatarDirPath()}/$imageName';
     await pickedImage.saveTo(savePath);
 
     setTelephoneCard(_telephoneCard!.copyWith(avatar: savePath));
@@ -104,17 +104,19 @@ class _EditTelephoneState extends State<EditTelephone> {
         ? contact.phones.first.number!.replaceAll(RegExp(r'\D'), '')
         : '';
     final int? number = numberStr.isEmpty ? null : int.parse(numberStr);
-    final Uint8List? avatar =
-        contact.photo == null ? contact.photo?.bytes : null;
+    final Uint8List? avatar = contact.photo?.bytes;
 
     String savePath = '';
     if (avatar != null) {
-      savePath = '${getAvatarDirPath()}/${DateTime.now()}.png';
+      savePath = '${await getAvatarDirPath()}/${DateTime.now()}.png';
       await File(savePath).writeAsBytes(avatar);
     }
 
     setTelephoneCard(
         _telephoneCard!.copyWith(name: name, number: number, avatar: savePath));
+
+    _nameController.text = _telephoneCard?.name ?? '';
+    _telController.text = _telephoneCard?.number.toString() ?? '';
   }
 
   Future<void> save() async {
@@ -260,12 +262,10 @@ class _EditTelephoneState extends State<EditTelephone> {
                                             _temName.length),
                                     style: TextStyle(fontSize: basicFontSize)),
                               )
-                            : Expanded(
-                                child: CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: FileImage(
-                                        File(_telephoneCard!.avatar!))),
-                              ),
+                            : CircleAvatar(
+                                radius: 50,
+                                backgroundImage:
+                                    FileImage(File(_telephoneCard!.avatar!))),
                       ),
                     ),
                     const SizedBox(
