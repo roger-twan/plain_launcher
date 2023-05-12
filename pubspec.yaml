@@ -9,12 +9,16 @@ environment:
 dependencies:
   date_format: ^2.0.7
   device_apps: ^2.2.0
-  flex_color_picker: ^3.2.1
   flutter:
     sdk: flutter
+  flutter_expanded_tile: ^0.3.7
+  fluttercontactpicker: ^4.7.0
+  image_picker: ^0.8.7+5
+  path_provider: ^2.0.15
   provider: ^6.0.5
   reorderables: ^0.6.0
   shared_preferences: ^2.1.1
+  wave: ^0.2.2
 
 dev_dependencies:
   flutter_test:

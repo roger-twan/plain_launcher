@@ -17,8 +17,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SafeArea(child: HomePage()),
+    return MaterialApp(
+      theme: ThemeData(
+          scaffoldBackgroundColor:
+              Provider.of<Settings>(context).backgroundColor,
+          sliderTheme:
+              SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
+          textTheme: TextTheme(
+              bodyMedium: TextStyle(
+                  fontSize: Provider.of<Settings>(context).fontSize))),
+      home: const HomePage(),
     );
   }
 }
