@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../modal/card.dart';
 import '../provider/settings.dart';
+import 'cards/edit/app.dart';
 import 'cards/edit/telephone.dart';
 
 class EditActions extends StatefulWidget {
@@ -36,9 +37,9 @@ class _EditActionsState extends State<EditActions> {
                     // case CardType.video:
                     //   widget = const EditVideo();
                     //   break;
-                    // case CardType.app:
-                    //   widget = const EditApp();
-                    //   break;
+                    case CardType.app:
+                      widget = const EditApp();
+                      break;
                     default:
                       break;
                   }

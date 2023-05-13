@@ -5,9 +5,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:plain_launcher/widget/cards/edit/_background_color.dart';
 import '../../../const/colors.dart';
 import '../../../modal/card.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+
+import '_bottom_actions.dart';
 
 class EditTelephone extends StatefulWidget {
   final TelephoneCard? telephoneCard;
@@ -65,8 +68,9 @@ class _EditTelephoneState extends State<EditTelephone> {
         name: _isEditing ? widget.telephoneCard!.name : '',
         number: _isEditing ? widget.telephoneCard!.number : null,
         avatar: _isEditing ? widget.telephoneCard!.avatar : null,
-        backgroundColor: backgroundColorList[
-            Random().nextInt(backgroundColorList.length - 2)]);
+        avatarBackgroundColor: backgroundColorList[
+            Random().nextInt(backgroundColorList.length - 2)],
+        backgroundColor: cardColorList[Random().nextInt(cardColorList.length)]);
   }
 
   Future<String> getAvatarDirPath() async {
@@ -233,6 +237,21 @@ class _EditTelephoneState extends State<EditTelephone> {
                 const SizedBox(height: 10),
                 Row(
                   children: [
+                    Expanded(
+                      child: OutlinedButton(
+                          onPressed: () => pickContact(),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            maximumSize: const Size.fromWidth(double.infinity),
+                          ),
+                          child: Text('从联系人中选择',
+                              style: TextStyle(fontSize: basicFontSize))),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
                     Icon(
                       Icons.mood,
                       size: basicFontSize * 1.2,
@@ -248,7 +267,7 @@ class _EditTelephoneState extends State<EditTelephone> {
                         width: basicFontSize * 2.5,
                         height: basicFontSize * 2.5,
                         decoration: BoxDecoration(
-                          color: _telephoneCard?.backgroundColor,
+                          color: _telephoneCard?.avatarBackgroundColor,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(50),
                         ),
@@ -278,67 +297,29 @@ class _EditTelephoneState extends State<EditTelephone> {
                                 color: Colors.grey[500]))),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                          onPressed: () => pickContact(),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            maximumSize: const Size.fromWidth(double.infinity),
-                          ),
-                          child: Text('从联系人中选择',
-                              style: TextStyle(fontSize: basicFontSize))),
-                    ),
-                  ],
-                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: BackgroundColor(
+                      showIcon: true,
+                      color: _telephoneCard!.backgroundColor,
+                      onChanged: (Color value) => setTelephoneCard(
+                          _telephoneCard!.copyWith(backgroundColor: value))),
+                )
               ],
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      backgroundColor: Colors.green,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                    ),
-                    onPressed: () => save(),
-                    child:
-                        Text('保存', style: TextStyle(fontSize: basicFontSize))),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      backgroundColor: Colors.red,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                    ),
-                    onPressed: () {
-                      if (_isEditing) {
-                        delete();
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: Text(_isEditing ? '删除' : '取消',
-                        style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .fontSize))),
-              )
-            ],
-          )
+          BottomActions(
+            secondaryTitle: _isEditing ? '删除' : '取消',
+            onPrimaryTaped: () => save(),
+            onSecondaryTaped: () {
+              if (_isEditing) {
+                delete();
+              } else {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
         ],
       ),
     );

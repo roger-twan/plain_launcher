@@ -8,20 +8,23 @@ class TelephoneCard {
   String name;
   int? number;
   String? avatar;
-  Color? backgroundColor;
+  Color? avatarBackgroundColor;
+  Color backgroundColor;
 
   TelephoneCard(
       {required this.id,
       required this.name,
       required this.number,
       this.avatar,
-      this.backgroundColor});
+      this.avatarBackgroundColor,
+      required this.backgroundColor});
 
   TelephoneCard copyWith({
     int? id,
     String? name,
     int? number,
     String? avatar,
+    Color? avatarBackgroundColor,
     Color? backgroundColor,
   }) {
     return TelephoneCard(
@@ -29,6 +32,8 @@ class TelephoneCard {
       name: name ?? this.name,
       number: number ?? this.number,
       avatar: avatar ?? this.avatar,
+      avatarBackgroundColor:
+          avatarBackgroundColor ?? this.avatarBackgroundColor,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -53,11 +58,27 @@ class VideoCard {
 
 class AppCard {
   CardType type = CardType.app;
-  String name;
-  String url;
-  String icon;
+  int id;
+  bool isInit = false;
+  String packageName;
+  Color backgroundColor;
 
-  AppCard({required this.name, required this.url, required this.icon});
+  AppCard({
+    required this.id,
+    required this.isInit,
+    required this.packageName,
+    required this.backgroundColor,
+  });
+
+  AppCard copyWith(
+      {int? id, bool? isInit, String? packageName, Color? backgroundColor}) {
+    return AppCard(
+      id: id ?? this.id,
+      isInit: isInit ?? this.isInit,
+      packageName: packageName ?? this.packageName,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+    );
+  }
 
   void open() {
     // TODO: open app
