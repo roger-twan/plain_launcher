@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import '../service/channel_service.dart';
 import '../utils/index.dart';
@@ -48,8 +49,8 @@ class TelephoneCard {
       name: json['name'],
       number: json['number'],
       avatar: json['avatar'],
-      avatarBackgroundColor: json['avatarBackgroundColor'],
-      backgroundColor: json['backgroundColor'],
+      avatarBackgroundColor: stringToColor(json['avatarBackgroundColor']),
+      backgroundColor: stringToColor(json['backgroundColor']),
     );
   }
 
@@ -61,13 +62,15 @@ class TelephoneCard {
       'number': number,
       'avatar': avatar,
       'avatarBackgroundColor': avatarBackgroundColor.toString(),
-      'backgroundColor': stringToColor(backgroundColor.toString()),
+      'backgroundColor': backgroundColor.toString(),
     };
 
     return jsonEncode(json);
   }
 
-  void handle() {}
+  void handle() async {
+    await FlutterPhoneDirectCaller.callNumber(number.toString());
+  }
 }
 
 class VideoCard {

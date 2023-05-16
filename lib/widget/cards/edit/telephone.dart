@@ -31,6 +31,7 @@ class _EditTelephoneState extends State<EditTelephone> {
   String _temName = '';
   bool _isEditing = false;
   final ImagePicker picker = ImagePicker();
+  late CardList _cardList;
 
   void setIsNameError(bool value) {
     setState(() {
@@ -62,6 +63,7 @@ class _EditTelephoneState extends State<EditTelephone> {
 
     _isEditing = widget.telephoneCard != null;
     _temName = _isEditing ? widget.telephoneCard!.name : '';
+    _cardList = Provider.of<CardList>(context, listen: false);
 
     _telephoneCard = TelephoneCard(
         id: _isEditing
@@ -70,9 +72,16 @@ class _EditTelephoneState extends State<EditTelephone> {
         name: _isEditing ? widget.telephoneCard!.name : '',
         number: _isEditing ? widget.telephoneCard!.number : null,
         avatar: _isEditing ? widget.telephoneCard!.avatar : null,
-        avatarBackgroundColor: backgroundColorList[
-            Random().nextInt(backgroundColorList.length - 2)],
-        backgroundColor: cardColorList[Random().nextInt(cardColorList.length)]);
+        avatarBackgroundColor: _isEditing
+            ? widget.telephoneCard!.avatarBackgroundColor
+            : backgroundColorList[
+                Random().nextInt(backgroundColorList.length - 2)],
+        backgroundColor: _isEditing
+            ? widget.telephoneCard!.backgroundColor
+            : cardColorList[Random().nextInt(cardColorList.length)]);
+
+    _nameController.text = _telephoneCard?.name ?? '';
+    _telController.text = _telephoneCard?.number.toString() ?? '';
   }
 
   Future<String> getAvatarDirPath() async {
@@ -135,14 +144,18 @@ class _EditTelephoneState extends State<EditTelephone> {
 
     if (!_isNameError && !_isTelError) {
       if (_isEditing) {
+        await _cardList.update(_telephoneCard);
       } else {
-        Provider.of<CardList>(context, listen: false).add(_telephoneCard);
+        await _cardList.add(_telephoneCard);
       }
+
+      if (context.mounted) Navigator.pop(context);
     }
   }
 
   Future<void> delete() async {
-    // delete
+    await _cardList.delete(_telephoneCard);
+    if (context.mounted) Navigator.pop(context);
   }
 
   @override

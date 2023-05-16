@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   flutter_accessibility_service: ^0.2.2
   flutter_expanded_tile: ^0.3.7
+  flutter_phone_direct_caller: ^2.1.1
   fluttercontactpicker: ^4.7.0
   image_picker: ^0.8.7+5
   path_provider: ^2.0.15
