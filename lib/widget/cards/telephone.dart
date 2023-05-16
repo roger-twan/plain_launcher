@@ -22,18 +22,21 @@ class _TelephoneCardWidgetState extends State<TelephoneCardWidget> {
       children: [
         Expanded(
           child: widget.card.avatar == null
-              ? Center(
-                  child: Text(
-                      widget.card.name == ''
-                          ? ''
-                          : widget.card.name.substring(
-                              widget.card.name.length - 2,
-                              widget.card.name.length),
-                      style: TextStyle(fontSize: basicFontSize)),
-                )
-              : CircleAvatar(
+            ? Center(
+                child: Text(
+                    widget.card.name == ''
+                        ? ''
+                        : widget.card.name.substring(
+                            widget.card.name.length - 2,
+                            widget.card.name.length),
+                    style: TextStyle(fontSize: basicFontSize)),
+              )
+            : SizedBox(
+              width: double.infinity,
+              child: CircleAvatar(
                   radius: 50,
                   backgroundImage: FileImage(File(widget.card.avatar!))),
+            ) 
         ),
         const SizedBox(
           width: 4,
