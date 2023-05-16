@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:plain_launcher/widget/edit_tips.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
 import 'provider/settings.dart';
+import 'provider/card_list.dart';
+import 'widget/edit_tips.dart';
 import 'widget/cards/wrapper.dart';
 import 'widget/time.dart';
 import 'widget/settings/index.dart';
@@ -16,28 +17,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Widget> _tiles = const [
-    CardWrapper(child: Icon(Icons.filter_1, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_2, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_3, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_4, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_5, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_6, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_7, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_8, size: 30)),
-    CardWrapper(child: Icon(Icons.filter_9, size: 30)),
-  ];
-  OverlayEntry? overlayEntry;
-  void _onReorder(int oldIndex, int newIndex) {
-    setState(() {
-      Widget row = _tiles.removeAt(oldIndex);
-      _tiles.insert(newIndex, row);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isCardEditing = Provider.of<Settings>(context).isCardEditing;
+    List<dynamic> cardList = Provider.of<CardList>(context).cardList;
+    final List<Widget> cardWidgetList =
+        cardList.map((card) => CardWrapper(card: card)).toList();
+
+    void onReorder(int oldIndex, int newIndex) {
+      final List<dynamic> list = List.from(cardList);
+      dynamic row = list.removeAt(oldIndex);
+      list.insert(newIndex, row);
+
+      Provider.of<CardList>(context, listen: false).setCardList(list);
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isCardEditing ? EditTips().showTips(context) : EditTips().removeTips();
@@ -79,9 +72,9 @@ class _HomePageState extends State<HomePage> {
                 spacing: 8,
                 runSpacing: 8,
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                onReorder: _onReorder,
+                onReorder: onReorder,
                 buildDraggableFeedback: (context, constraints, child) => child,
-                children: _tiles),
+                children: cardWidgetList),
           ],
         ),
       ),

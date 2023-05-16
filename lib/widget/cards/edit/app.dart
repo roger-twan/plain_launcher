@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
-import 'package:plain_launcher/widget/cards/edit/_app_list.dart';
-import 'package:plain_launcher/widget/cards/edit/_background_color.dart';
+import 'package:provider/provider.dart';
+import '../../../provider/card_list.dart';
+import '../../../widget/cards/edit/_app_list.dart';
+import '../../../widget/cards/edit/_background_color.dart';
 import '../../../const/colors.dart';
-import '../../../modal/card.dart';
+import '../../../model/card.dart';
 import '_bottom_actions.dart';
 
 class EditApp extends StatefulWidget {
@@ -21,6 +23,7 @@ class _EditAppState extends State<EditApp> {
   bool _isEditing = false;
   final ExpandedTileController _controller =
       ExpandedTileController(isExpanded: false);
+  late CardList _cardList;
   AppCard? _appCard;
   bool _isAppSelected = true;
 
@@ -29,6 +32,7 @@ class _EditAppState extends State<EditApp> {
     super.initState();
 
     _isEditing = widget.appCard != null;
+    _cardList = Provider.of<CardList>(context, listen: false);
 
     _appCard = AppCard(
         id: _isEditing
@@ -36,7 +40,9 @@ class _EditAppState extends State<EditApp> {
             : DateTime.now().millisecondsSinceEpoch,
         packageName: _isEditing ? widget.appCard!.packageName : '',
         isInit: _isEditing ? widget.appCard!.isInit : false,
-        backgroundColor: cardColorList[Random().nextInt(cardColorList.length)]);
+        backgroundColor: _isEditing
+            ? widget.appCard!.backgroundColor
+            : cardColorList[Random().nextInt(cardColorList.length)]);
   }
 
   void setAppCard(AppCard value) {
@@ -62,15 +68,18 @@ class _EditAppState extends State<EditApp> {
       setIsAppSelected(false);
     } else {
       if (_isEditing) {
-        // TODO: update
+        await _cardList.update(_appCard);
       } else {
-        // TODO: add
+        await _cardList.add(_appCard);
       }
     }
+
+    if (context.mounted) Navigator.pop(context);
   }
 
   Future<void> delete() async {
-    // delete
+    await _cardList.delete(_appCard);
+    if (context.mounted) Navigator.pop(context);
   }
 
   @override
@@ -187,10 +196,10 @@ class _EditAppState extends State<EditApp> {
           const SizedBox(height: 20),
           BottomActions(
             secondaryTitle: _isEditing ? '删除' : '取消',
-            onPrimaryTaped: () => save(),
-            onSecondaryTaped: () {
+            onPrimaryTaped: () async => await save(),
+            onSecondaryTaped: () async {
               if (_isEditing) {
-                delete();
+                await delete();
               } else {
                 Navigator.of(context).pop();
               }

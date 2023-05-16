@@ -5,9 +5,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:plain_launcher/widget/cards/edit/_background_color.dart';
+import '../../../provider/card_list.dart';
+import '../../../widget/cards/edit/_background_color.dart';
+import 'package:provider/provider.dart';
 import '../../../const/colors.dart';
-import '../../../modal/card.dart';
+import '../../../model/card.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 
 import '_bottom_actions.dart';
@@ -133,9 +135,8 @@ class _EditTelephoneState extends State<EditTelephone> {
 
     if (!_isNameError && !_isTelError) {
       if (_isEditing) {
-        // TODO: update
       } else {
-        // TODO: add
+        Provider.of<CardList>(context, listen: false).add(_telephoneCard);
       }
     }
   }

@@ -16,7 +16,7 @@ class _EachRowCountSettingState extends State<EachRowCountSetting> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('每行数量:'),
+        const Text('每行卡片数量:'),
         ToggleButtons(
           isSelected: [eachRowCount == 2, eachRowCount == 3],
           borderRadius: const BorderRadius.all(Radius.circular(10)),

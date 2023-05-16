@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/index.dart';
+
 enum TimeFormatType { twelve, twentyFour }
 
 class Settings extends ChangeNotifier {
@@ -70,10 +72,7 @@ class Settings extends ChangeNotifier {
     final String savedBackgroundColor =
         _preferences?.getString('backgroundColor') ??
             _backgroundColor.toString();
-    final String valueString =
-        savedBackgroundColor.split('(0x')[1].split(')')[0];
-    final int value = int.parse(valueString, radix: 16);
-    _backgroundColor = Color(value);
+    _backgroundColor = stringToColor(savedBackgroundColor);
   }
 
   Color get backgroundColor => _backgroundColor;

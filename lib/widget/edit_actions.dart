@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../modal/card.dart';
+import '../model/card.dart';
 import '../provider/settings.dart';
-import 'cards/edit/app.dart';
-import 'cards/edit/telephone.dart';
+import 'cards/bottom_sheet.dart';
 
 class EditActions extends StatefulWidget {
   const EditActions({super.key});
@@ -25,27 +24,7 @@ class _EditActionsState extends State<EditActions> {
         PopupMenuButton(
           key: popupMenu,
           onSelected: (CardType value) {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  late Widget widget;
-
-                  switch (value) {
-                    case CardType.telephone:
-                      widget = const EditTelephone();
-                      break;
-                    // case CardType.video:
-                    //   widget = const EditVideo();
-                    //   break;
-                    case CardType.app:
-                      widget = const EditApp();
-                      break;
-                    default:
-                      break;
-                  }
-
-                  return widget;
-                });
+            showSheet(context, value);
           },
           child: ElevatedButton(
             onPressed: () => popupMenu.currentState?.showButtonMenu(),
