@@ -25,7 +25,7 @@ class CardList extends ChangeNotifier {
       _cardList = normalSystemAppList
           .map((String packageName) => AppCard(
               id: normalSystemAppList.indexOf(packageName),
-              isInit: false,
+              isRestart: false,
               packageName: packageName,
               backgroundColor:
                   cardColorList[Random().nextInt(cardColorList.length)]))

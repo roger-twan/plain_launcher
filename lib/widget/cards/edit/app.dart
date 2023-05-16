@@ -39,7 +39,7 @@ class _EditAppState extends State<EditApp> {
             ? widget.appCard!.id
             : DateTime.now().millisecondsSinceEpoch,
         packageName: _isEditing ? widget.appCard!.packageName : '',
-        isInit: _isEditing ? widget.appCard!.isInit : false,
+        isRestart: _isEditing ? widget.appCard!.isRestart : false,
         backgroundColor: _isEditing
             ? widget.appCard!.backgroundColor
             : cardColorList[Random().nextInt(cardColorList.length)]);
@@ -167,11 +167,11 @@ class _EditAppState extends State<EditApp> {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('打开主页:'),
+                      const Text('重新启动:'),
                       Switch(
-                        value: _appCard?.isInit ?? false,
+                        value: _appCard?.isRestart ?? false,
                         onChanged: (bool value) {
-                          setAppCard(_appCard!.copyWith(isInit: value));
+                          setAppCard(_appCard!.copyWith(isRestart: value));
                         },
                       )
                     ],
@@ -181,7 +181,7 @@ class _EditAppState extends State<EditApp> {
                     color: Colors.grey[700],
                     size: basicFontSize * 0.8,
                   ),
-                  content: Text('打开开关后每次点击应用会默认打开应用的主页，防止在应用内误点后不知道如何回到应用主页。',
+                  content: Text('打开开关后每次点击应用会重启应用，应对在应用内误点，不知道如何回到应用主页的情况。',
                       style: TextStyle(fontSize: basicFontSize * 0.8)),
                 ),
                 const Divider(),

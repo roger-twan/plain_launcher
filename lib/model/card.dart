@@ -1,8 +1,7 @@
 import 'dart:convert';
-
-import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 
+import '../service/channel_service.dart';
 import '../utils/index.dart';
 
 enum CardType { telephone, video, app }
@@ -128,22 +127,22 @@ class VideoCard {
 class AppCard {
   CardType type = CardType.app;
   int id;
-  bool isInit = false;
+  bool isRestart = false;
   String packageName;
   Color backgroundColor;
 
   AppCard({
     required this.id,
-    required this.isInit,
+    required this.isRestart,
     required this.packageName,
     required this.backgroundColor,
   });
 
   AppCard copyWith(
-      {int? id, bool? isInit, String? packageName, Color? backgroundColor}) {
+      {int? id, bool? isRestart, String? packageName, Color? backgroundColor}) {
     return AppCard(
       id: id ?? this.id,
-      isInit: isInit ?? this.isInit,
+      isRestart: isRestart ?? this.isRestart,
       packageName: packageName ?? this.packageName,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
@@ -152,7 +151,7 @@ class AppCard {
   factory AppCard.fromJson(Map<String, dynamic> json) {
     return AppCard(
       id: json['id'],
-      isInit: json['isInit'],
+      isRestart: json['isRestart'],
       packageName: json['packageName'],
       backgroundColor: stringToColor(json['backgroundColor']),
     );
@@ -162,7 +161,7 @@ class AppCard {
     final Map<String, dynamic> json = {
       'type': type.toString(),
       'id': id,
-      'isInit': isInit,
+      'isRestart': isRestart,
       'packageName': packageName,
       'backgroundColor': backgroundColor.toString(),
     };
@@ -170,7 +169,5 @@ class AppCard {
     return jsonEncode(json);
   }
 
-  void handle() {
-    DeviceApps.openApp(packageName);
-  }
+  void handle() async => await ChannelService().openApp(packageName, isRestart);
 }
