@@ -1,16 +1,12 @@
-# plain_launcher
+# Plain Launcher
+An Android launcher designed to be senior-friendly
 
-A new Flutter project.
 
-## Getting Started
+## 📸 Screenshots
+| | | | |
+| --- | --- | --- | --- |
+|![](/doc/1.png)|![](/doc/2.png)|![](/doc/3.png)|![](/doc/4.png)|
 
-This project is a starting point for a Flutter application.
+This project has not been finished completely and has been paused.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Read more about [Building An Android Launcher Designed for Senior Friendly](https://roger.twan.life/Building-An-Android-Launcher-Designed-for-Senior-Friendly-9ab506bf7b64402c9a3d661d1e13a9d0)
