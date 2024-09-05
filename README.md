@@ -9,4 +9,4 @@ An Android launcher designed to be senior-friendly
 
 This project has not been finished completely and has been paused.
 
-Read more about [Building An Android Launcher Designed To Be Senior-Friendly](https://roger.twan.life/Building-An-Android-Launcher-Designed-To-Be-Senior-Friendly-9ab506bf7b64402c9a3d661d1e13a9d0)
+Read more about [Building An Android Launcher Designed To Be Senior-Friendly](https://roger.ink/blog/Building%20An%20Android%20Launcher%20Designed%20To%20Be%20Senior-Friendly)
